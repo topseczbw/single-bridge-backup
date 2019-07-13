@@ -104,5 +104,4 @@
 * [前端生成唯一标识uuid](https://github.com/topseczbw/singleBridge/issues/1)
 * [详解：登录流程](https://github.com/topseczbw/singleBridge/issues/1)
 
-![2019学习路线图](https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/
-u=702257389,1274025419&fm=27&gp=0.jpg "区块链")
+![2019学习路线图](https://github.com/topseczbw/singleBridge/blob/master/asset/2019学习路线图)
