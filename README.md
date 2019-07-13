@@ -9,7 +9,7 @@
 <br>
 <br>
 
-目录
+## 目录
 * [html](#html)
 * [css](#css)
 * [javascript](#javascript)
@@ -29,7 +29,9 @@
 * [git](#git)
 * [编码规范](#编码规范)
 * [静态代码检查](#静态代码检查)
-* [mathJax](#mathJax)
+* [typescript](#typescript)
+* [单元测试](#单元测试)
+* [e2e测试](#e2e测试)
 * [技术点](#技术点)
 
 <br>
@@ -73,10 +75,11 @@
 * [单例模式](https://github.com/topseczbw/singleBridge/issues/2)
 
 ## webpack
-* [单例模式](https://github.com/topseczbw/singleBridge/issues/2)
+* [常用插件介绍](https://github.com/topseczbw/singleBridge/issues/2)
 
 ## npm
 * [package.json与package.lock.json](https://github.com/topseczbw/singleBridge/issues/2)
+* [npm与yarn区别](https://github.com/topseczbw/singleBridge/issues/2)
 
 ## node
 * [单例模式](https://github.com/topseczbw/singleBridge/issues/2)
@@ -96,8 +99,14 @@
 ## 静态代码检查
 * [Prettier学习](https://github.com/topseczbw/singleBridge/issues/2)
 
-## mathJax
-* [单例模式](https://github.com/topseczbw/singleBridge/issues/2)
+## typescript
+* [Prettier学习](https://github.com/topseczbw/singleBridge/issues/2)
+
+## 单元测试
+* [Prettier学习](https://github.com/topseczbw/singleBridge/issues/2)
+
+## e2e测试
+* [Prettier学习](https://github.com/topseczbw/singleBridge/issues/2)
 
 ## 技术点
 * [使用 postMessage 解决 iframe 跨域通信问题](https://github.com/topseczbw/singleBridge/issues/1)
