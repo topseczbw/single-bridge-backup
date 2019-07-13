@@ -107,4 +107,4 @@
 <br>
 <br>
 
-![2019学习路线图](https://github.com/topseczbw/singleBridge/blob/master/asset/2019%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF.svg)
+![2019学习路线图](https://github.com/topseczbw/singleBridge/blob/master/asset/learn-road.png)
