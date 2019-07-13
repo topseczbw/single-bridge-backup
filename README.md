@@ -124,7 +124,8 @@
 * [单例模式](https://github.com/topseczbw/singleBridge/issues/2)
 
 ## git
-* [单例模式](https://github.com/topseczbw/singleBridge/issues/2)
+* [git常用命令](https://github.com/topseczbw/single-bridge/issues/3)
+* [git优势](https://github.com/topseczbw/single-bridge/issues/4)
 
 ## 编码规范
 * [单例模式](https://github.com/topseczbw/singleBridge/issues/2)
