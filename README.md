@@ -21,11 +21,18 @@
 	* [vue-cli](#vue-cli)
 	* [源码](#源码)
 * [设计模式](#设计模式)
+* [正则表达式](#正则表达式)
+* [函数式编程](#函数式编程)
 * [webpack](#webpack)
+* [gulp](#gulp)
+* [rollup](#rollup)
 * [npm](#npm)
+* [http](#http)
 * [node](#node)
 * [数据结构](#数据结构)
 * [算法](#算法)
+* [性能优化](#性能优化)
+* [SDK](#SDK)
 * [git](#git)
 * [编码规范](#编码规范)
 * [静态代码检查](#静态代码检查)
@@ -52,6 +59,11 @@
 * [所有的数据处理都可以使用map、reduce解决](https://github.com/topseczbw/singleBridge/issues/2)
 * [Promise.all与Promise.race区别](https://github.com/topseczbw/singleBridge/issues/2)
 * [encodeURIComponent和](https://github.com/topseczbw/singleBridge/issues/2)
+* [防抖与节流](https://github.com/topseczbw/singleBridge/issues/2)
+* [IIFE（立即调用函数表达式）](https://github.com/topseczbw/singleBridge/issues/2)
+* [重绘和重排](https://github.com/topseczbw/singleBridge/issues/2)
+* [字符编码](https://github.com/topseczbw/singleBridge/issues/2)
+* [什么是字符实体](https://github.com/topseczbw/singleBridge/issues/2)
 
 ## es6
 * [事件流是如何传播的](https://github.com/topseczbw/singleBridge/issues/2)
@@ -74,12 +86,27 @@
 ## 设计模式
 * [单例模式](https://github.com/topseczbw/singleBridge/issues/2)
 
+## 正则表达式
+* [单例模式](https://github.com/topseczbw/singleBridge/issues/2)
+
+## 函数式编程
+* [单例模式](https://github.com/topseczbw/singleBridge/issues/2)
+
 ## webpack
+* [常用插件介绍](https://github.com/topseczbw/singleBridge/issues/2)
+
+## gulp
+* [常用插件介绍](https://github.com/topseczbw/singleBridge/issues/2)
+
+## rollup
 * [常用插件介绍](https://github.com/topseczbw/singleBridge/issues/2)
 
 ## npm
 * [package.json与package.lock.json](https://github.com/topseczbw/singleBridge/issues/2)
 * [npm与yarn区别](https://github.com/topseczbw/singleBridge/issues/2)
+
+## http
+* [单例模式](https://github.com/topseczbw/singleBridge/issues/2)
 
 ## node
 * [单例模式](https://github.com/topseczbw/singleBridge/issues/2)
@@ -88,6 +115,12 @@
 * [单例模式](https://github.com/topseczbw/singleBridge/issues/2)
 
 ## 算法
+* [单例模式](https://github.com/topseczbw/singleBridge/issues/2)
+
+## 性能优化
+* [单例模式](https://github.com/topseczbw/singleBridge/issues/2)
+
+## SDK
 * [单例模式](https://github.com/topseczbw/singleBridge/issues/2)
 
 ## git
@@ -113,6 +146,11 @@
 * [实现拖拽功能](https://github.com/topseczbw/singleBridge/issues/1)
 * [前端生成唯一标识uuid](https://github.com/topseczbw/singleBridge/issues/1)
 * [详解：登录流程](https://github.com/topseczbw/singleBridge/issues/1)
+* [详解：图片上传](https://github.com/topseczbw/singleBridge/issues/1)
+* [上传OSS步骤](https://github.com/topseczbw/singleBridge/issues/1)
+* [异常处理](https://github.com/topseczbw/singleBridge/issues/1)
+* [charles使用](https://github.com/topseczbw/singleBridge/issues/2)
+* [hexo搭建博客](https://github.com/topseczbw/singleBridge/issues/2)
 
 <br>
 <br>
