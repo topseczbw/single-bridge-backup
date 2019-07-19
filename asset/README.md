@@ -42,7 +42,7 @@
   |  subjectId   |    学科id    | String | — |
   | gradeGroupId |    年部id    | String | — |
   |    queId     |    试题id    | String | — |
-| logicIdList  | 逻辑题型列表 | String | '1,2,4,8,9' |
+	| logicIdList  | 逻辑题型列表 | String | '1,2,4,8,9' |
   |   pageType   |   页面标识   | String | '0' |
 
 + 获取数据
