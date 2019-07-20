@@ -50,18 +50,18 @@
 * [什么是BFC？](https://github.com/topseczbw/singleBridge/issues/2)
 
 ## javascript
-* [读高程](https://github.com/topseczbw/single-bridge/issues/14)
+* [读高程](https://github.com/topseczbw/single-bridge/blob/master/docs/读高程.md)
 * [js基础](https://github.com/topseczbw/single-bridge/blob/master/docs/js基础.md)
 * [详解：函数柯里化](https://github.com/topseczbw/singleBridge/issues/2)
 * [防抖与节流](https://github.com/topseczbw/singleBridge/issues/2)
 
 ## es6
-* [es6实战技巧](https://github.com/topseczbw/single-bridge/issues/7)
-* [promise](https://github.com/topseczbw/single-bridge/issues/12)
+* [es6实战技巧](https://github.com/topseczbw/single-bridge/blob/master/docs/es6实战技巧.md)
+* [promise](https://github.com/topseczbw/single-bridge/blob/master/docs/promise.md)
 
 ## vue
 
-+ [vue实战发现](https://github.com/topseczbw/single-bridge/issues/6)
++ [vue实战发现](https://github.com/topseczbw/single-bridge/blob/master/docs/vue实战发现.md)
 
 
 ## 设计模式
@@ -71,7 +71,7 @@
 ## gulp
 ## rollup
 ## npm
-* [npm知识储备](https://github.com/topseczbw/single-bridge/issues/13)
+* [npm知识储备](https://github.com/topseczbw/single-bridge/blob/master/docs/npm知识储备.md)
 
 ## http
 ## node
@@ -88,23 +88,24 @@
 ## 单元测试
 ## e2e测试
 ## 技术点
-* [使用 postMessage 解决 iframe 跨域通信问题](https://github.com/topseczbw/single-bridge/issues/1)
-* [扫描二维码登录流程](https://github.com/topseczbw/single-bridge/issues/18)
-* [登录流程](https://github.com/topseczbw/single-bridge/issues/19)
-* [客户端侧代码中区分环境](https://github.com/topseczbw/single-bridge/issues/21)
+* [使用 postMessage 解决 iframe 跨域通信问题](https://github.com/topseczbw/single-bridge/blob/master/docs/使用 postMessage 解决 iframe 跨域通信问题.md)
+* [扫描二维码登录流程](https://github.com/topseczbw/single-bridge/blob/master/docs/扫描二维码登录流程.md)
+* [登录流程](https://github.com/topseczbw/single-bridge/blob/master/docs/登录流程.md)
+* [客户端侧代码中区分环境](https://github.com/topseczbw/single-bridge/blob/master/docs/客户端侧代码中区分环境.md)
+* [记住密码实现](https://github.com/topseczbw/single-bridge/blob/master/docs/记住密码实现.md)
 
 ## 常用工具库
 
-+ [常用工具库](https://github.com/topseczbw/single-bridge/issues/20)
++ [常用工具库](https://github.com/topseczbw/single-bridge/blob/master/docs/常用的库.md)
 
 ## 面试
 * [面试指导](https://github.com/topseczbw/single-bridge/issues/5)
 
 ## 生活感悟
 
-+ [一句话提高你的技术成长](https://github.com/topseczbw/single-bridge/issues/10)
-+ [一句话改变你的思维方式](https://github.com/topseczbw/single-bridge/issues/11)
-+ [细节决定一切](https://github.com/topseczbw/single-bridge/issues/15)
++ [一句话提高你的技术成长](https://github.com/topseczbw/single-bridge/blob/master/docs/一句话提高你的技术成长.md)
++ [一句话改变你的思维方式](https://github.com/topseczbw/single-bridge/blob/master/docs/一句话改变你的思维方式.md)
++ [细节决定一切](https://github.com/topseczbw/single-bridge/blob/master/docs/细节决定一切.md)
 
 <br>
 <br>
