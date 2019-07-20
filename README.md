@@ -35,7 +35,9 @@
 * [单元测试](#单元测试)
 * [e2e测试](#e2e测试)
 * [技术点](#技术点)
+* [常用工具库](#常用工具库)
 * [面试](#面试)
+* [生活感悟](#生活感悟)
 
 <br>
 
@@ -52,14 +54,10 @@
 * [js基础](https://github.com/topseczbw/single-bridge/issues/17)
 * [详解：函数柯里化](https://github.com/topseczbw/singleBridge/issues/2)
 * [防抖与节流](https://github.com/topseczbw/singleBridge/issues/2)
-* [IIFE（立即调用函数表达式）是什么？](https://github.com/topseczbw/singleBridge/issues/2)
-* [重绘和重排](https://github.com/topseczbw/singleBridge/issues/2)
-* [字符编码](https://github.com/topseczbw/singleBridge/issues/2)
-* [什么是字符实体](https://github.com/topseczbw/singleBridge/issues/2)
 
 ## es6
 * [es6实战技巧](https://github.com/topseczbw/single-bridge/issues/7)
-* [promise基础](https://github.com/topseczbw/single-bridge/issues/12)
+* [promise](https://github.com/topseczbw/single-bridge/issues/12)
 
 ## vue
 
