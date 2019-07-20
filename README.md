@@ -51,7 +51,7 @@
 
 ## javascript
 * [读高程](https://github.com/topseczbw/single-bridge/issues/14)
-* [js基础](https://github.com/topseczbw/single-bridge/issues/17)
+* [js基础](https://github.com/topseczbw/single-bridge/blob/master/docs/js基础.md)
 * [详解：函数柯里化](https://github.com/topseczbw/singleBridge/issues/2)
 * [防抖与节流](https://github.com/topseczbw/singleBridge/issues/2)
 
