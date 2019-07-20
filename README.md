@@ -94,9 +94,10 @@
 * [客户端侧代码中区分环境](https://github.com/topseczbw/single-bridge/blob/master/docs/客户端侧代码中区分环境.md)
 * [记住密码实现](https://github.com/topseczbw/single-bridge/blob/master/docs/记住密码实现.md)
 
-## 常用工具库
+## 资源
 
 + [常用工具库](https://github.com/topseczbw/single-bridge/blob/master/docs/常用的库.md)
++ [文档资源](https://github.com/topseczbw/single-bridge/blob/master/docs/文档资源.md)
 
 ## 面试
 * [面试指导](https://github.com/topseczbw/single-bridge/issues/5)
