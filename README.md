@@ -96,6 +96,7 @@
 
 ## 资源
 
++ [vue官方资源](https://github.com/vuejs/awesome-vue)
 + [常用工具库](https://github.com/topseczbw/single-bridge/blob/master/docs/常用的库.md)
 + [文档资源](https://github.com/topseczbw/single-bridge/blob/master/docs/文档资源.md)
 
