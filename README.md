@@ -80,7 +80,7 @@
 ## 性能优化
 ## SDK
 ## git
-* [git常用命令](https://github.com/topseczbw/single-bridge/issues/3)
+* [git常用指令](https://github.com/topseczbw/single-bridge/blob/master/docs/git常用指令.md)
 
 ## 编码规范
 ## 静态代码检查
@@ -100,7 +100,7 @@
 + [文档资源](https://github.com/topseczbw/single-bridge/blob/master/docs/文档资源.md)
 
 ## 面试
-* [面试指导](https://github.com/topseczbw/single-bridge/issues/5)
+* [面试指导](https://github.com/topseczbw/single-bridge/blob/master/docs/面试指导.md)
 
 ## 生活感悟
 
