@@ -44,7 +44,8 @@
 
 ## html
 ## css
-* [容易忽略的css细节](https://github.com/topseczbw/singleBridge/issues/2)
+* [css常见问题](https://github.com/topseczbw/single-bridge/blob/master/docs/css常见问题.md)
+* [flex布局](https://github.com/topseczbw/single-bridge/blob/master/docs/flex布局.md)
 * [常用的css伪类](https://github.com/topseczbw/singleBridge/issues/2)
 * [BEM规范](https://github.com/topseczbw/singleBridge/issues/2)
 * [什么是BFC？](https://github.com/topseczbw/singleBridge/issues/2)
@@ -62,6 +63,7 @@
 ## vue
 
 + [vue实战发现](https://github.com/topseczbw/single-bridge/blob/master/docs/vue实战发现.md)
++ [render函数](https://github.com/topseczbw/single-bridge/blob/master/docs/render函数.md)
 
 
 ## 设计模式

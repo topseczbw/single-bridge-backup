@@ -188,7 +188,11 @@
    }
    ```
 
+   ### 技巧
    
+   **重置组件状态**：`Object.assign(this.$data, this.$options.data())`
+
+5. 
 
 
 
