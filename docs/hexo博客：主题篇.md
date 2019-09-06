@@ -141,14 +141,3 @@ actions: false
 3. ##### 增加博客评论功能
    * 踩坑 `gitalk` 后，决定使用 `来比力` 
    * 站在巨人的肩膀上吧！[链接地址](https://blog.csdn.net/qq_41923622/article/details/82966186)
-
-#### 搭建博客相关资源
-
-1. [GitHub+Hexo 搭建个人网站详细教程](https://zhuanlan.zhihu.com/p/26625249)
-2. [Codeing Page](https://coding.net/pages)
-3. [Hexo 从 GitHub 到阿里云](https://zhuanlan.zhihu.com/p/58654392)
-4. [百度站点管理](https://ziyuan.baidu.com/site/index)
-5. [如何配置 SSH 公钥访问 git 仓库？](https://coding.net/help/doc/git/ssh-key.html)
-6. [Coding Pages 托管](https://blog.csdn.net/qq_36667170/article/details/79318665)
-7. [Hexo博客提交百度和Google收录](https://www.jianshu.com/p/f8ec422ebd52)
-8. [腾讯云开发平台 = coding ≈ github](https://dev.tencent.com/u/singlebridge/p/singlebridge/git/pages/settings)
