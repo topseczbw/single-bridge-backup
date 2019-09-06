@@ -134,10 +134,6 @@ actions: false
    * 解决方案
      * 进入主题目录，执行 `npm run build` 命令，再启动 hexo 就正常了。
 
-
-* 解决方案
-  * 进入主题目录，执行 `npm run build` 命令，再启动 hexo 就正常了。
-
 2. ##### 如何格式化全站设置时间样式
    * 找到 `themes/tranquilpeak/languages/zh-cn.yml ` 文件 
    * 根据 `moment.js` 中的format 格式修改 `date_format`
