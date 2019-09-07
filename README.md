@@ -1,15 +1,10 @@
-# 走不完的独木桥 
+# 走不完的独木桥  
 
-<br>
-<br>
-
-> *"吾等采石之人，当心怀大教堂之愿景。"*    
-> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;———《Pragmatic Programmer》
-
-<br>
-<br>
-
+> *"吾等采石之人，当心怀大教堂之愿景。"*
+> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;———《Pragmatic Programmer》  
+  
 ## 目录
+
 * [html](#html)
 * [css](#css)
 * [javascript](#javascript)
@@ -34,17 +29,18 @@
 * [typescript](#typescript)
 * [单元测试](#单元测试)
 * [e2e测试](#e2e测试)
+* [IDE相关](#IDE相关)
 * [技术点](#技术点)
 * [常用工具库](#常用工具库)
 * [面试](#面试)
 * [博客相关](#博客相关)
 * [生活感悟](#生活感悟)
-
-<br>
-
+* [学习路线](#学习路线)
 
 ## html
+
 ## css
+
 * [css常见问题](https://github.com/topseczbw/single-bridge/blob/master/docs/css常见问题.md)
 * [flex布局](https://github.com/topseczbw/single-bridge/blob/master/docs/flex布局.md)
 * [常用的css伪类](https://github.com/topseczbw/singleBridge/issues/2)
@@ -52,12 +48,14 @@
 * [什么是BFC？](https://github.com/topseczbw/singleBridge/issues/2)
 
 ## javascript
+
 * [读高程](https://github.com/topseczbw/single-bridge/blob/master/docs/读高程.md)
 * [js基础](https://github.com/topseczbw/single-bridge/blob/master/docs/js基础.md)
 * [详解：函数柯里化](https://github.com/topseczbw/singleBridge/issues/2)
 * [防抖与节流](https://github.com/topseczbw/singleBridge/issues/2)
 
 ## es6
+
 * [es6实战技巧](https://github.com/topseczbw/single-bridge/blob/master/docs/es6实战技巧.md)
 * [promise](https://github.com/topseczbw/single-bridge/blob/master/docs/promise.md)
 
@@ -66,31 +64,54 @@
 + [vue实战发现](https://github.com/topseczbw/single-bridge/blob/master/docs/vue实战发现.md)
 + [render函数](https://github.com/topseczbw/single-bridge/blob/master/docs/render函数.md)
 
-
 ## 设计模式
+
 ## 正则表达式
+
 ## 函数式编程
+
 ## webpack
+
 ## gulp
+
 ## rollup
+
 ## npm
+
 * [npm知识储备](https://github.com/topseczbw/single-bridge/blob/master/docs/npm知识储备.md)
 
 ## http
+
 ## node
+
 ## 数据结构
+
 ## 算法
+
 ## 性能优化
+
 ## SDK
+
 ## git
+
 * [git常用指令](https://github.com/topseczbw/single-bridge/blob/master/docs/git常用指令.md)
 
 ## 编码规范
-## 静态代码检查
+
+* [代码检查和格式化](https://github.com/topseczbw/single-bridge/blob/master/docs/代码检查和格式化.md)
+
 ## typescript
+
 ## 单元测试
+
+## IED相关
+
+* [VsCode插件使用](https://github.com/topseczbw/single-bridge/blob/master/docs/VsCode插件使用.md)
+
 ## e2e测试
+
 ## 技术点
+
 * [使用postMessage解决iframe跨域通信问题](https://github.com/topseczbw/single-bridge/blob/master/docs/使用postMessage解决iframe跨域通信问题.md)
 * [扫描二维码登录流程](https://github.com/topseczbw/single-bridge/blob/master/docs/扫描二维码登录流程.md)
 * [登录流程](https://github.com/topseczbw/single-bridge/blob/master/docs/登录流程.md)
@@ -99,24 +120,25 @@
 
 ## 资源
 
-+ [vue官方资源](https://github.com/vuejs/awesome-vue)
-+ [常用工具库](https://github.com/topseczbw/single-bridge/blob/master/docs/常用的库.md)
-+ [文档资源](https://github.com/topseczbw/single-bridge/blob/master/docs/文档资源.md)
+* [vue官方资源](https://github.com/vuejs/awesome-vue)
+* [常用工具库](https://github.com/topseczbw/single-bridge/blob/master/docs/常用的库.md)
+* [文档资源](https://github.com/topseczbw/single-bridge/blob/master/docs/文档资源.md)
 
 ## 面试
+
 * [面试指导](https://github.com/topseczbw/single-bridge/blob/master/docs/面试指导.md)
 
 ## 博客相关
+
 * [hexo博客：基础篇](https://github.com/topseczbw/single-bridge/blob/master/docs/hexo博客：基础篇.md)
 * [hexo博客：主题篇](https://github.com/topseczbw/single-bridge/blob/master/docs/hexo博客：主题篇.md)
 
 ## 生活感悟
 
-+ [一句话提高你的技术成长](https://github.com/topseczbw/single-bridge/blob/master/docs/一句话提高你的技术成长.md)
-+ [一句话改变你的思维方式](https://github.com/topseczbw/single-bridge/blob/master/docs/一句话改变你的思维方式.md)
-+ [细节决定一切](https://github.com/topseczbw/single-bridge/blob/master/docs/细节决定一切.md)
+* [一句话提高你的技术成长](https://github.com/topseczbw/single-bridge/blob/master/docs/一句话提高你的技术成长.md)
+* [一句话改变你的思维方式](https://github.com/topseczbw/single-bridge/blob/master/docs/一句话改变你的思维方式.md)
+* [细节决定一切](https://github.com/topseczbw/single-bridge/blob/master/docs/细节决定一切.md)
 
-<br>
-<br>
+## 学习路线
 
 ![2019学习路线图](https://github.com/topseczbw/singleBridge/blob/master/asset/learn-road.png)
