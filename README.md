@@ -9,6 +9,7 @@
 * [css](#css)
 * [javascript](#javascript)
 * [es6](#es6)
+* [sass](#sass)
 * [vue](#vue)
 * [设计模式](#设计模式)
 * [正则表达式](#正则表达式)
@@ -40,28 +41,23 @@
 
 ## css
 
-* [css常见问题](https://github.com/topseczbw/single-bridge/blob/master/docs/css常见问题.md)
-* [flex布局](https://github.com/topseczbw/single-bridge/blob/master/docs/flex布局.md)
-* [常用的css伪类](https://github.com/topseczbw/singleBridge/issues/2)
-* [BEM规范](https://github.com/topseczbw/singleBridge/issues/2)
-* [什么是BFC？](https://github.com/topseczbw/singleBridge/issues/2)
-
 ## javascript
 
 * [读高程](https://github.com/topseczbw/single-bridge/blob/master/docs/读高程.md)
 * [js基础](https://github.com/topseczbw/single-bridge/blob/master/docs/js基础.md)
-* [详解：函数柯里化](https://github.com/topseczbw/singleBridge/issues/2)
-* [防抖与节流](https://github.com/topseczbw/singleBridge/issues/2)
 
 ## es6
 
 * [es6实战技巧](https://github.com/topseczbw/single-bridge/blob/master/docs/es6实战技巧.md)
 * [promise](https://github.com/topseczbw/single-bridge/blob/master/docs/promise.md)
 
+## sass
+
+* [sass与scss区别](https://github.com/topseczbw/single-bridge/blob/master/docs/sass与scss区别.md)
+
 ## vue
 
-+ [vue实战发现](https://github.com/topseczbw/single-bridge/blob/master/docs/vue实战发现.md)
-+ [render函数](https://github.com/topseczbw/single-bridge/blob/master/docs/render函数.md)
+* [vue实战发现](https://github.com/topseczbw/single-bridge/blob/master/docs/vue实战发现.md)
 
 ## 设计模式
 
@@ -116,6 +112,7 @@
 * [登录流程](https://github.com/topseczbw/single-bridge/blob/master/docs/登录流程.md)
 * [客户端侧代码中区分环境](https://github.com/topseczbw/single-bridge/blob/master/docs/客户端侧代码中区分环境.md)
 * [记住密码实现](https://github.com/topseczbw/single-bridge/blob/master/docs/记住密码实现.md)
+* [文件上传阿里云oss](https://github.com/topseczbw/single-bridge/blob/master/docs/文件上传阿里云oss.md)
 
 ## 资源
 
