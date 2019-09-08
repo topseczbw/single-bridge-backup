@@ -1,4 +1,7 @@
 # 文件上传阿里云oss
+
+[阿里云API地址](https://help.aliyun.com/document_detail/32072.html?spm=5176.11065259.1996646101.searchclickresult.53772858XAnWJv)
+
 <!-- TOC -->
 
 - [什么是分片上传](#什么是分片上传)

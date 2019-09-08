@@ -14,7 +14,7 @@
          }, 1000)
        }))
    }
-   
+
    const p2 = () => {
      return new Promise(((resolve, reject) => {
        setTimeout(() => {
@@ -22,11 +22,11 @@
        }, 3000)
      }))
    }
-     
+
    // 3秒后返回[1, 2]，解决串行4秒后返回的问题
    Promise.all([p1(), p2()]).then((a) => console.log(a))
    ```
 
-   
+
 
 

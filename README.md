@@ -73,8 +73,6 @@
 
 ## npm
 
-* [npm知识储备](https://github.com/topseczbw/single-bridge/blob/master/docs/npm知识储备.md)
-
 ## http
 
 ## node
@@ -133,8 +131,9 @@
 
 * [一句话提高你的技术成长](https://github.com/topseczbw/single-bridge/blob/master/docs/一句话提高你的技术成长.md)
 * [一句话改变你的思维方式](https://github.com/topseczbw/single-bridge/blob/master/docs/一句话改变你的思维方式.md)
-* [细节决定一切](https://github.com/topseczbw/single-bridge/blob/master/docs/细节决定一切.md)
 
-## 学习路线
+## 其他
+
+* [词汇积累](https://github.com/topseczbw/single-bridge/blob/master/docs/词汇积累.md)
 
 ![2019学习路线图](./assets/road.png)
