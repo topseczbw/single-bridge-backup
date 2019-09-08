@@ -1,4 +1,4 @@
-# 使用 postMessage 解决 iframe 跨域通信问题
+# 使用postMessage+iframe开发插件式服务
 
 ## 概念
 

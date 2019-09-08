@@ -105,7 +105,7 @@
 
 ## 技术点
 
-* [使用postMessage解决iframe跨域通信问题](https://github.com/topseczbw/single-bridge/blob/master/docs/使用postMessage解决iframe跨域通信问题.md)
+* [使用postMessage+iframe开发插件式服务](https://github.com/topseczbw/single-bridge/blob/master/docs/使用postMessage解决iframe跨域通信问题.md)
 * [扫描二维码登录流程](https://github.com/topseczbw/single-bridge/blob/master/docs/扫描二维码登录流程.md)
 * [登录流程](https://github.com/topseczbw/single-bridge/blob/master/docs/登录流程.md)
 * [客户端侧代码中区分环境](https://github.com/topseczbw/single-bridge/blob/master/docs/客户端侧代码中区分环境.md)
