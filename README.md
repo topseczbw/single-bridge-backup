@@ -1,4 +1,4 @@
-# 走不完的独木桥
+# 走不完的独木桥 ~
 
 > *"吾等采石之人，当心怀大教堂之愿景。"*
 > &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;———《Pragmatic Programmer》
@@ -34,7 +34,7 @@
 * [常用工具库](#常用工具库)
 * [面试](#面试)
 * [博客相关](#博客相关)
-* [生活感悟](#生活感悟)
+* [其他](#其他)
 * [学习路线](#学习路线)
 
 ## html
@@ -127,13 +127,14 @@
 * [hexo博客：基础篇](https://github.com/topseczbw/single-bridge/blob/master/docs/hexo博客：基础篇.md)
 * [hexo博客：主题篇](https://github.com/topseczbw/single-bridge/blob/master/docs/hexo博客：主题篇.md)
 
-## 生活感悟
-
-* [一句话提高你的技术成长](https://github.com/topseczbw/single-bridge/blob/master/docs/一句话提高你的技术成长.md)
-* [一句话改变你的思维方式](https://github.com/topseczbw/single-bridge/blob/master/docs/一句话改变你的思维方式.md)
-
 ## 其他
 
 * [词汇积累](https://github.com/topseczbw/single-bridge/blob/master/docs/词汇积累.md)
+
+* [如何写好述职ppt](https://github.com/topseczbw/single-bridge/blob/master/docs/如何写好述职ppt.md)
+
+* [一句话提高你的技术成长](https://github.com/topseczbw/single-bridge/blob/master/docs/一句话提高你的技术成长.md)
+
+* [一句话改变你的思维方式](https://github.com/topseczbw/single-bridge/blob/master/docs/一句话改变你的思维方式.md)
 
 ![2019学习路线图](./assets/road.png)

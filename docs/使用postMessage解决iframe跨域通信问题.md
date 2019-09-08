@@ -1,88 +1,26 @@
 # 使用 postMessage 解决 iframe 跨域通信问题
 
-1. ## 调用方
+## 概念
 
-   ### 注意
+**调用方**：调用iframe服务的一方
 
-   使用url传参给iframe进行项目初始化，不要使用 `postMessage` 。
+**服务方**：在iframe中，开发页面服务的一方
 
-   ```js
-   async start() {
-         await this.login()
-         const _this = this
-         const iframeEle = document.createElement('iframe')
-         const wrapEle = document.querySelector('.example__content')
-         
-         // 
-         /* 等iframe加载完成后，向iframe发送数据。z
-         iframeEle.addEventListener('load', function() {
-           iframeEle.contentWindow.postMessage(_this.config, '*')
-         })
-         */
-         const params = this.getParams()
-         iframeEle.src =
-           location.origin +
-           (isDevEnv ? `/index.html?${params}#/` : `/diy/index.html?${params}#/`)
-         iframeEle.style.cssText += 'width: 100%;height: 100%;border: 0;'
-         wrapEle.innerHTML = ''
-         wrapEle.appendChild(iframeEle)
-       },
-         
-     // 监听返回结果
-     async created() {
-       window.addEventListener(
-         'message',
-         function(e) {
-           if (e.data.source === 'diy') {
-             console.log('paper收到来自diy的数据')
-             document.querySelector('.result').innerHTML = `<p>生成试题ID:</p>${
-               e.data.queId
-             }`
-           }
-         },
-         false
-       )
-     }
-   ```
+## 调用方
 
-   
+1. 调用方使用url传参方式对iframe项目进行初始化
+   ![调用方使用url传参方式对iframe项目进行初始化](../assets/iframe-message0.png)
 
-2. ## 服务方
+2. 监听服务方派发出的事件
+   ![监听服务方派发出的事件](../assets/iframe-message1.png)
 
-   通过url获取参数进行项目初始化。
+3. 调用方通过postMessage向服务方传递数据
+   ![调用方使用url传参方式对iframe项目进行初始化](../assets/iframe-message2.png)
 
-   使用 `window.parent` 获取到调用方窗口。
+## 服务方
 
-   ```js
-   // 通过url获取参数进行项目初始化
-   function parseQueryString(url) {
-     url = url == null ? window.location.href : url
-     var search = url.substring(url.lastIndexOf('?') + 1)
-     if (!search) {
-       return {}
-     }
-     return JSON.parse('{"' + decodeURIComponent(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}')
-   }
-   
-   // 删除末尾 "#/"
-   var global_initConfig = (function() {
-     try {
-       var url = window.location.href.slice(0, -2)
-       return parseQueryString(url)
-     } catch (e) {
-     }
-   })()
-   
-   // 向调用方传递数据
-   postMessageEvent(queId) {
-     window.parent.postMessage(
-       {
-         source: 'diy',
-         queId
-       },
-       '*'
-     )
-   }
-   ```
+1. 服务方通过url获取参数，对项目进行初始化
+   ![调用方使用url传参方式对iframe项目进行初始化](../assets/iframe-message3.png)
 
-   
+2. 服务方派发消息给调用方
+   ![调用方使用url传参方式对iframe项目进行初始化](../assets/iframe-message4.png)
