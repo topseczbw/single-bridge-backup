@@ -1,8 +1,8 @@
-# 走不完的独木桥  
+# 走不完的独木桥
 
 > *"吾等采石之人，当心怀大教堂之愿景。"*
-> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;———《Pragmatic Programmer》  
-  
+> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;———《Pragmatic Programmer》
+
 ## 目录
 
 * [html](#html)
@@ -137,4 +137,4 @@
 
 ## 学习路线
 
-![2019学习路线图](https://github.com/topseczbw/singleBridge/blob/master/asset/learn-road.png)
+![2019学习路线图](./assets/road.png)
