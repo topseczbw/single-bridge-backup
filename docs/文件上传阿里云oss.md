@@ -4,6 +4,7 @@
 - [什么是分片上传](#什么是分片上传)
 - [什么是断点续传](#什么是断点续传)
 - [上传OSS步骤](#上传oss步骤)
+- [删除正在上传的图片](#删除正在上传的图片)
 - [常见问题](#常见问题)
   - [上传同名文件是否会覆盖](#上传同名文件是否会覆盖)
   - [移动端（钉钉微应用）上传时，出现少数机型分片上传功能失效](#移动端钉钉微应用上传时出现少数机型分片上传功能失效)
@@ -144,6 +145,23 @@ doUpload () {
 
 ```
 
+## 删除正在上传的图片
+
+```js
+deleteImg (data) {
+      this.deleteHandel(data, this.stopImgList)
+      this.imgList.splice(data.index, 1)
+    },
+    deleteHandel (data, list) { // 暂停及实时更新client对象
+      if (data.progress < 100) {
+        list[data.index].client.cancel()
+      }
+      list.splice(data.index, 1)
+      // 点击删除也要同时清空value值，防止暂停有时上传不了文件
+      document.getElementById('file').value = ''
+    },
+```
+
 ## 常见问题
 
 ### 上传同名文件是否会覆盖
@@ -159,3 +177,4 @@ OSS允许上传同名文件，但是会对源文件直接执行覆盖操作
 #### 相关链接
 
 [h5 OSS上传 qq浏览器失败超时](https://www.jianshu.com/p/5f6d09c099b6)
+[alioss-js-upload](https://github.com/taosin/alioss-js-upload/blob/2.0/public/src/components/upload.vue)
