@@ -118,6 +118,7 @@
 * [客户端侧代码中区分环境](https://github.com/topseczbw/single-bridge/blob/master/docs/客户端侧代码中区分环境.md)
 * [记住密码实现](https://github.com/topseczbw/single-bridge/blob/master/docs/记住密码实现.md)
 * [文件上传阿里云oss](https://github.com/topseczbw/single-bridge/blob/master/docs/文件上传阿里云oss.md)
+* [前端监控](https://github.com/topseczbw/single-bridge/blob/master/docs/前端监控.md)
 
 ## 资源
 
