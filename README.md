@@ -74,6 +74,8 @@
 
 ## gulp
 
+* [使用gulp构建一个模板项目](https://github.com/topseczbw/single-bridge/blob/master/docs/使用gulp构建一个模板项目.md)
+
 ## rollup
 
 ## npm
