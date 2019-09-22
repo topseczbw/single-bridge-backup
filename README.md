@@ -69,6 +69,7 @@
 ## 移动端
 
 * [调试移动端H5页面](https://github.com/topseczbw/single-bridge/blob/master/docs/调试移动端H5页面.md)
+* [图片上传后被旋转问题](https://github.com/topseczbw/single-bridge/blob/master/docs/图片上传后被旋转问题.md)
 
 ## webpack
 
