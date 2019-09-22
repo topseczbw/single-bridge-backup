@@ -262,3 +262,7 @@ chore：构建过程或辅助工具的变动
 ```
 
 摘自[《阮一峰 Commit message 和 Change log 编写指南》](http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html)
+
+## 资料
+
+- [廖雪峰的官方网站](https://www.liaoxuefeng.com/wiki/896043488029600)
