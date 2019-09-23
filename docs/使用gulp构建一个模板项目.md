@@ -15,10 +15,15 @@
   - [合并多文件，输出单一文件](#合并多文件输出单一文件)
   - [处理css浏览器兼容性前缀](#处理css浏览器兼容性前缀)
   - [处理sass，编译压缩](#处理sass编译压缩)
-  - [browser-sync](#browser-sync)
+  - [起一个本地服务，开始调接口吧](#起一个本地服务开始调接口吧)
+    - [browser-sync](#browser-sync)
+    - [gulp-connect + http-proxy-middleware](#gulp-connect--http-proxy-middleware)
+    - [browser-sync 与 gulp-connect 区别](#browser-sync-与-gulp-connect-区别)
 - [注意](#注意)
-  - [return 或者 done()](#return-或者-done)
+  - [return 和 done() 有什么区别](#return-和-done-有什么区别)
   - [为什么热刷新不好使](#为什么热刷新不好使)
+  - [做代理解决跨域问题时，遇到404问题](#做代理解决跨域问题时遇到404问题)
+  - [为什么引入第三方依赖包如jquery后，源代码找不到$](#为什么引入第三方依赖包如jquery后源代码找不到)
 
 <!-- /TOC -->
 
@@ -174,7 +179,9 @@ const sass = require('gulp-sass');
         }))
 ```
 
-### browser-sync
+### 起一个本地服务，开始调接口吧
+
+#### browser-sync
 
 `npm i -D browser-sync`
 
@@ -204,13 +211,100 @@ const buildTask = series([cleanTask, jsTask, cssTask, server, watcherTask])
 exports.default = buildTask;
 ```
 
+#### gulp-connect + http-proxy-middleware
+
+`gulp-connect` 用来起服务，配合 `http-proxy-middleware` 做代理，解决跨域问题
+
+`npm i -D gulp-connect http-proxy-middleware`
+
+```js
+const connect = require('gulp-connect');
+const proxy = require('http-proxy-middleware');
+
+/**
+ * @description 起服务
+ */
+function serverTask() {
+  connect.server({
+    root: './dist',
+    port: 8888,
+    livereload: true,
+    middleware: function(connect, opt) {
+        return [
+            proxy('/api/',  {
+                target: 'https://devtk.aibeike.com',
+                changeOrigin:true,
+                pathRewrite: {  // 覆写路径
+                  '^/api/': ''
+                }
+            })
+        ]
+    }
+  })
+}
+
+/**
+ * @description 处理html任务
+ * @returns
+ */
+function htmlTask() {
+  return src('src/index.html')
+          .pipe(dest('dist'))
+          .pipe(connect.reload()) // reload解决热加载问题，js和css资源同理
+}
+
+// serverTask任务和watcherTask任务要并行处理，否则执行到serverTask服务器启动后，任务就自动关闭了，热加载功能会丢失
+const assetsTask = series(cleanTask, htmlTask, jsTask, cssTask, serverTask)
+
+const buildTask = parallel(assetsTask, watcherTask)
+
+exports.default = buildTask;
+```
+
+#### browser-sync 与 gulp-connect 区别
+
+`browser-sync` 没有配合使用的代理插件，在解决跨域问题有些鸡肋
+
+`gulp-connect` 配合 `http-proxy-middleware` 使用可以很方便的解决跨域问题
+
 ## 注意
 
-### return 或者 done()
+### return 和 done() 有什么区别
 
 return 是当返回promise时
-done比较通用  比如热刷新reload时，return就不好使了
+
+done回调方法比较通用，比如热刷新reload时，return就不好使了
 
 ### 为什么热刷新不好使
 
 这段代码不可以写成return，只能写成done
+
+### 做代理解决跨域问题时，遇到404问题
+
+遇到404的一种很常见的情况是，在proxy时，使用了 `/api` 作为请求接口的前缀链接，但是真正的接口地址中是不存在 `/api` 这样的路径的，此处需要使用 `pathRewrite` 覆写删除 `/api`。
+
+同样的问题，参考资料：[http-proxy-middleware配合gulp使用时的一些坑](https://ymbo.github.io/2018/01/09/http-proxy-middleware%E9%85%8D%E5%90%88gulp%E4%BD%BF%E7%94%A8%E6%97%B6%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/)
+
+### 为什么引入第三方依赖包如jquery后，源代码找不到$
+
+处理js资源时，src方法读取js文件的顺序是有要求的。
+
+```js
+/**
+ * @description 处理js任务
+ * @returns
+ */
+function jsTask() {
+  // 读取src文件夹下所有js文件
+  // 注意js文件打包引入的先后顺序，先导入lib，再导入应用代码
+  return src(['src/lib/*.js', 'src/js/*.js'])
+          .pipe(babel({ // 编译es6
+            presets: ['@babel/env']
+          }))
+          .pipe(uglify())  // 压缩、混淆
+          .pipe(concat('bundle.js')) // 合并所有文件，输出all.js文件
+          // .pipe(rename('bundle.js')) // 重命名为zbw.js
+          .pipe(dest('./dist/js/'))  // 输出到根目录下dist文件夹
+          .pipe(connect.reload()) // 热加载
+}
+```
