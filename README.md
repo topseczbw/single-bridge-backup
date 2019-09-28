@@ -59,6 +59,7 @@
 ## vue
 
 * [vue实战发现](https://github.com/topseczbw/single-bridge/blob/master/docs/vue实战发现.md)
+* [vue源码解读](https://github.com/topseczbw/single-bridge/blob/master/docs/vue源码解读.md)
 
 ## 设计模式
 
