@@ -15,10 +15,7 @@
 * [正则表达式](#正则表达式)
 * [函数式编程](#函数式编程)
 * [移动端](#移动端)
-* [webpack](#webpack)
-* [gulp](#gulp)
-* [rollup](#rollup)
-* [npm](#npm)
+* [自动化构建](#自动化构建)
 * [http](#http)
 * [node](#node)
 * [数据结构](#数据结构)
@@ -60,6 +57,8 @@
 
 * [vue实战发现](https://github.com/topseczbw/single-bridge/blob/master/docs/vue实战发现.md)
 * [vue源码解读](https://github.com/topseczbw/single-bridge/blob/master/docs/vue源码解读.md)
+* [vue项目搭建](https://github.com/topseczbw/single-bridge/blob/master/docs/vue项目搭建.md)
+* [使用vue-cli3](https://github.com/topseczbw/single-bridge/blob/master/docs/使用vue-cli3.md)
 
 ## 设计模式
 
@@ -72,21 +71,19 @@
 * [调试移动端H5页面](https://github.com/topseczbw/single-bridge/blob/master/docs/调试移动端H5页面.md)
 * [图片上传后被旋转问题](https://github.com/topseczbw/single-bridge/blob/master/docs/图片上传后被旋转问题.md)
 
-## webpack
+## 自动化构建
 
-## gulp
-
+* [关于webpack配置常见问题](https://github.com/topseczbw/single-bridge/blob/master/docs/关于webpack配置常见问题.md)
 * [使用gulp构建一个模板项目](https://github.com/topseczbw/single-bridge/blob/master/docs/使用gulp构建一个模板项目.md)
-
-## rollup
-
-## npm
 
 ## http
 
 * [ajax交互数据格式](https://github.com/topseczbw/single-bridge/blob/master/docs/ajax交互数据格式.md)
 
 ## node
+
+* [koa资源](https://github.com/topseczbw/single-bridge/blob/master/docs/koa资源.md)
+* [关于package.json](https://github.com/topseczbw/single-bridge/blob/master/docs/关于package.json.md)
 
 ## 数据结构
 
@@ -125,6 +122,7 @@
 * [记住密码实现](https://github.com/topseczbw/single-bridge/blob/master/docs/记住密码实现.md)
 * [文件上传阿里云oss](https://github.com/topseczbw/single-bridge/blob/master/docs/文件上传阿里云oss.md)
 * [前端监控](https://github.com/topseczbw/single-bridge/blob/master/docs/前端监控.md)
+* [图片资源相关](https://github.com/topseczbw/single-bridge/blob/master/docs/图片资源相关.md)
 
 ## 资源
 
