@@ -30,7 +30,6 @@
 * [IDE相关](#IDE相关)
 * [技术点](#技术点)
 * [常用工具库](#常用工具库)
-* [面试](#面试)
 * [博客相关](#博客相关)
 * [其他](#其他)
 * [学习路线](#学习路线)
@@ -129,10 +128,6 @@
 * [常用工具库](https://github.com/topseczbw/single-bridge/blob/master/docs/常用的库.md)
 * [文档资源](https://github.com/topseczbw/single-bridge/blob/master/docs/文档资源.md)
 
-## 面试
-
-* [面试指导](https://github.com/topseczbw/single-bridge/blob/master/docs/面试指导.md)
-
 ## 博客相关
 
 * [hexo博客：基础篇](https://github.com/topseczbw/single-bridge/blob/master/docs/hexo博客：基础篇.md)
@@ -140,12 +135,14 @@
 
 ## 其他
 
-* [词汇积累](https://github.com/topseczbw/single-bridge/blob/master/docs/词汇积累.md)
+* [词汇积累](https://github.com/topseczbw/single-bridge/blob/master/docs/private/词汇积累.md)
 
-* [如何写好述职ppt](https://github.com/topseczbw/single-bridge/blob/master/docs/如何写好述职ppt.md)
+* [如何写好述职ppt](https://github.com/topseczbw/single-bridge/blob/master/docs/private/如何写好述职ppt.md)
 
-* [一句话提高你的技术成长](https://github.com/topseczbw/single-bridge/blob/master/docs/一句话提高你的技术成长.md)
+* [一句话提高你的技术成长](https://github.com/topseczbw/single-bridge/blob/master/docs/private/一句话提高你的技术成长.md)
 
-* [一句话改变你的思维方式](https://github.com/topseczbw/single-bridge/blob/master/docs/一句话改变你的思维方式.md)
+* [一句话改变你的思维方式](https://github.com/topseczbw/single-bridge/blob/master/docs/private/一句话改变你的思维方式.md)
+
+* [面试指导](https://github.com/topseczbw/single-bridge/blob/master/docs/private/面试指导.md)
 
 ![2019学习路线图](./assets/road.png)
