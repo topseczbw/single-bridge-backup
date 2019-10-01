@@ -160,4 +160,4 @@ NAME=vue
 
 可见注入时过滤调了非 VUE_APP_ 开头的变量，其中多出的 BASE_URL 为你在 vue.config.js 设置的值，默认为 /，其在环境配置文件中设置无效。
 
-![环境区分](../assets/使用vue-cli3/环境区分1.jpg)
+![环境区分](../assets/环境区分1.jpg)
