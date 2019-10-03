@@ -1,4 +1,4 @@
-# 实现jwt
+# jwt实现
 
 2019/10/03 01:17
 <!-- TOC -->
@@ -14,7 +14,7 @@ jwt 全称 json web token，可以看成是基于token的登录权限控制
 
 ## jwt流程图
 
-![jwt流程图优化后](../assets/jwt流程图优化后.png)
+![jwt流程图优化后](../assets/jwt流程图.png)
 
 ## axios 封装
 
