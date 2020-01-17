@@ -4,6 +4,7 @@
 
 <!-- TOC -->
 
+- [常用命令](#常用命令)
 - [修改webpack配置](#修改webpack配置)
   - [chainWebpack选项](#chainwebpack选项)
   - [configureWebpack选项](#configurewebpack选项)
@@ -14,6 +15,14 @@
   - [如何在客户端侧区分环境](#如何在客户端侧区分环境)
 
 <!-- /TOC -->
+
+## 常用命令
+
+```js
+// 检查webpack配置
+vue inspect
+
+```
 
 ## 修改webpack配置
 
