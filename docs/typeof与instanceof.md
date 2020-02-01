@@ -1,4 +1,4 @@
-# typeof与instanceof区别
+# typeof与instanceof
 
 2020/02/01 19:01
 
