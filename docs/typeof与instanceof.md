@@ -31,11 +31,11 @@ instanceof 只能校验某个对象是否是某个类的实例
 
 例如: `A instanceof B`
 
-取A.__proto__与B.prototype比较
+取`A.__proto__`与`B.prototype`比较
 
 如果相等，则返回true
 
-如果不相等，则继续取A.__proto__.__proto__与B.prototype比较。直至左边为null
+如果不相等，则继续取`A.__proto__.__proto__`与`B.prototype`比较。直至左边为null
 
 即沿着原型链的继承关系一直找，如果发现来同一个原型对象，则返回true，否则返回false
 
