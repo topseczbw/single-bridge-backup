@@ -1,5 +1,16 @@
 # typeof与instanceof区别
 
+2020/02/01 19:01
+
+<!-- TOC -->
+
+- [typeof](#typeof)
+- [instanceof](#instanceof)
+  - [instanceof原理](#instanceof原理)
+  - [实现一个instanceof](#实现一个instanceof)
+- [判断数据类型其他方法](#判断数据类型其他方法)
+
+<!-- /TOC -->
 typeof 用于判断原始数据类型：number、string、null、undefined、boolean、symbol、以及function
 
 instanceof 用于判断引用数据类型： Regexp、Object、Array
