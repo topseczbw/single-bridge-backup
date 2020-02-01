@@ -6,8 +6,10 @@
 
 - [typeof](#typeof)
 - [instanceof](#instanceof)
-  - [instanceof原理](#instanceof原理)
+  - [instanceof是如何运作的](#instanceof是如何运作的)
   - [实现一个instanceof](#实现一个instanceof)
+  - [instanceof本质](#instanceof本质)
+  - [如何实现让instanceof可以校验基本数据类型](#如何实现让instanceof可以校验基本数据类型)
 - [判断数据类型其他方法](#判断数据类型其他方法)
 
 <!-- /TOC -->
@@ -25,7 +27,7 @@ instanceof 用于判断引用数据类型： Regexp、Object、Array
 
 instanceof 只能校验某个对象是否是某个类的实例
 
-### instanceof原理
+### instanceof是如何运作的
 
 例如: `A instanceof B`
 
@@ -56,6 +58,24 @@ function instanceOf(A, B) {
 console.log(instanceOf("zbw", String));
 console.log(instanceOf("zbw", Object));
 console.log(instanceOf("zbw", Array));
+```
+
+### instanceof本质
+
+instanceof本质其实是调用类（方法）的静态方法`[Symbol.hasInstance]`对值进行校验
+
+### 如何实现让instanceof可以校验基本数据类型
+
+```js
+class ValidateStr {
+  static [Symbol.hasInstance](x) {
+    return typeof x === "string";
+  }
+}
+
+// 以下两种是等价的
+console.log(ValidateStr[Symbol.hasInstance]("hello"));
+console.log("hello" instanceof ValidateStr);
 ```
 
 ## 判断数据类型其他方法
