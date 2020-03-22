@@ -1,4 +1,4 @@
-# 关于package.json配置项
+# 解读package.json
 
 <!-- TOC -->
 
