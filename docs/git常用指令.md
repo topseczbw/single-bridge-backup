@@ -62,6 +62,16 @@
 
    `git branch -D [分支名称]`
 
+5. 把本地的dev分支强制覆盖并推送到远程master
+
+   `git push origin dev:master -f`
+
+6. 使用本地dev分支强制覆盖本地当前分支后，再强制推送
+
+   `git reset –hard dev`
+
+   `git push origin master -f`
+
 ## 提交
 
 1. 将当前目录所有文件添加到暂存区
