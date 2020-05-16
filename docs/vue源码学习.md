@@ -21,6 +21,12 @@
   - [具体过程](#具体过程)
   - [数据修改，视图需要更新时做了点什么](#数据修改视图需要更新时做了点什么)
   - [每一次都需要生成AST语法树吗](#每一次都需要生成ast语法树吗)
+- [生命周期的合并策略和执行](#生命周期的合并策略和执行)
+  - [mixin的合并策略](#mixin的合并策略)
+  - [初始化全局API/静态方法](#初始化全局api静态方法)
+  - [全局Vue.mixin的实现](#全局vuemixin的实现)
+  - [callHook（vm, hook）](#callhookvm-hook)
+- [对象的依赖收集](#对象的依赖收集)
 
 <!-- /TOC -->
 ## MVVM
@@ -177,6 +183,8 @@ generator方法传入ast语法树，输出render函数字符串（js语法）。
 
 ## 初始化渲染
 
+终于要渲染页面了
+
 得到render函数之后，下面应该做的就是渲染当前组件、挂载这个组件到指定的dom上。`mountComponent`
 
 1. updateComponent方法：无论是初次渲染还是更新都会调用此方法
@@ -205,3 +213,29 @@ generator方法传入ast语法树，输出render函数字符串（js语法）。
 模板不变 ast不变
 
 在开发时，由于需要改动模板做调试，所以会经常更新ast语法树。但是真正生产环境时，由于模板已经稳定不变，所以只有在第一次模板解析时会生成，只有数据变动，只是调用render方法，新旧虚拟dom对比，改动
+
+## 生命周期的合并策略和执行
+
+整个渲染流程熟悉了之后，下面我们会给整个流程添加一些钩子，方便用户在特定的阶段执行自定义逻辑
+
+### mixin的合并策略
+
+mixin核心方法 `mergeOptions`，规则即对象合并，同名的key后者会覆盖前者。但是遇到声明周期钩子时，需要使用数组的形式保存。
+
+### 初始化全局API/静态方法
+
+调用`initGlobalApi`方法，接收参数Vue
+
+### 全局Vue.mixin的实现
+
+实际上是在Vue构造函数上有一个静态属性 option 存放着全局的混合。然后在每次初始化vue实例时，同样调用`mergeOptions`将全局的混合与当前vm的混合合并。
+
+```js
+vm.$options = mergeOptions(vm.constructor.options, options)
+```
+
+### callHook（vm, hook）
+
+`callHook（vm, 'mounted')`  `callHook（vm, 'created')` 等函数在合适的地方调用，内部会从vm.$options中筛选出对应名称的钩子函数列表，循环执行
+
+## 对象的依赖收集
