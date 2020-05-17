@@ -27,6 +27,11 @@
   - [全局Vue.mixin的实现](#全局vuemixin的实现)
   - [callHook（vm, hook）](#callhookvm-hook)
 - [对象的依赖收集](#对象的依赖收集)
+  - [解决watcher重复存放的问题](#解决watcher重复存放的问题)
+- [数组的依赖收集](#数组的依赖收集)
+  - [数组什么时候notify依赖更新](#数组什么时候notify依赖更新)
+  - [数组什么时候进行依赖收集](#数组什么时候进行依赖收集)
+  - [当data选项中存在二维数组或者三维数组的情况呢](#当data选项中存在二维数组或者三维数组的情况呢)
 
 <!-- /TOC -->
 ## MVVM
@@ -234,8 +239,217 @@ mixin核心方法 `mergeOptions`，规则即对象合并，同名的key后者会
 vm.$options = mergeOptions(vm.constructor.options, options)
 ```
 
+这里使用`vm.constructor.options`而没使用Vue，是因为考虑到后续可能出现 a extend Vue 使用组件继承的方式，new a（）去创建组件，所以这里全局的mixin不一样全都放在Vue的静态属性options上，还有可能放在子类上
+
 ### callHook（vm, hook）
 
 `callHook（vm, 'mounted')`  `callHook（vm, 'created')` 等函数在合适的地方调用，内部会从vm.$options中筛选出对应名称的钩子函数列表，循环执行
 
 ## 对象的依赖收集
+
+初次渲染搞定了，钩子函数也有了。
+
+下面我们希望修改数据后，视图会自动更新，而不需要用户再手动调用 vm._update(_render()) 方法去更新dom。
+
+所以就需要进行依赖收集操作。
+
+每个属性都有一个dep依赖对象，dep存放着该属性相关的所有watcher，**每个属性只有一个dep**
+
+watcher种类：渲染watcher、computed计算函数、watch回调函数
+
+**watcher可以理解为，某个属性改变时，其相关联的操作的执行函数**，如：需要更新视图或者更新computed或者调用watch监听的回调
+
+以渲染watcher为例
+
+```js
+// 此处是执行mountedComponent时，初此渲染视图的方法
+pushTarget(this)
+this.getter.call(this.vm)
+popTarget()
+```
+
+```js
+Object.defineProperty(data, key, {
+    get() {
+      // 取数据之前 已经把 watcher 放到了target上 【source/vue/observe/watcher.js:37】
+      // todo 注意：同一个属性可能会在模板中被多次取值，有可能会在dep中注册很多相同的watcher，我们希望watcher不能重复，如果重复了就会造成更新时，多次渲染
+      if (Dep.target) {
+        // watcher 和 Dep 互相依赖
+        dep.depend() // 想让dep中 可以存watcher 还希望让这个watcher中存放dep 实现多对多关系
+
+
+        // 如在使用 vm.list 时
+        // 在这里不用担心对象会重新收集  因为在【source/vue/observe/watcher.js:46】方法中会判断dep唯一标识
+        if(childOb) {
+          childOb.dep.depend()
+
+          // 递归收集儿子的依赖
+          dependArray(value)
+        }
+      }
+      console.log('获取数据，【渲染dom，更新试图】')
+      return value
+    },
+    set(newValue) {
+      if (newValue === value) return
+      console.log('设置数据  设置vm属性')
+      observe(newValue)
+      value = newValue
+
+      // 执行 该属性 订阅过的 watcher
+      dep.notify()
+    }
+  })
+```
+
+先将渲染watcher放在Dep.target上。模板解析完毕后，执行render函数生成真实dom时，会触发对vm实例属性的get取值操作，此时该渲染watcher会被该属性的dep收集，在下次修改该属性时，触发set方法notify通知该属性关联的所有watcher，重新执行。达到更新视图的目的。
+
+每个属性都对应着自己的watcher列表
+
+### 解决watcher重复存放的问题
+
+如果模板中对于同一个属性，存在多次取值的场景如：
+
+```html
+<div>{{name}} {{name}} {{name}}</div>
+```
+
+这种情况下，每次取name属性，dep中就会增加一个渲染watcher，结果导致name属性的dep中存在三个相同的渲染watcher。同一个属性在模板中被多次取值，有可能会在dep中注册很多相同的watcher，watcher重复了就会造成更新时，多次渲染
+
+要解决上述问题，需要先搞清楚 watcher 和 dep 的关系是什么？
+
+先前的关系是，每个属性的唯一dep中存放着多个watcher，一对多，相当于属性记录了自己更新时，需要执行那些函数，触发那些方法，更新哪部分视图。但是watcher并不知道自己被哪些属性所使用。
+
+故将watcher 和 dep 改为多对多，watcher中记录去重后的dep，dep中也记录着唯一的watcher。每次触发属性的get方法时，调用 `dep.depend() => Dep.target.addDep(this)` 方法将dep存放到watcher上，在watcher中使用Set集合结构去重后，将dep存放起来后，再将watcher记录到dep上。由此保证每个属性的dep中 不会出现重复的watcher
+
+渲染watcher单个组件只有一个，但是如果有多个组件即多个vm实例，则会有多个渲染watcher
+
+## 数组的依赖收集
+
+### 数组什么时候notify依赖更新
+
+设想一下，对于数组什么时候会触发update，应该是在调用数组的方法如push时，我们希望视图可以更新，所以我们会在push的时候，通知当前数组的所有依赖watcher，调用dep的notify方法，更新视图或者computed，那么问题来了，但是我们在什么时候收集依赖呢？
+
+### 数组什么时候进行依赖收集
+
+回想收集对象的依赖是在defineReactive函数中，在defineReactive为每个属性定义set和get时，利用闭包，同时为每个属性定义一个dep，在get时，将依赖watcher们收集到dep中，在set时依赖可以获取到闭包中的watcher，调用notify通知视图更新
+
+对于数组，如vm.list.push()操作时，我们希望视图自动更新，我们已经知道在push时notify。我们可以在前半段操作 vm.list 中处理，在defineReactive中vm.list 的value由于是数组，在模板解析中，如果用到list属性，会递归对value也进行监测， 会observer（value）。所有我们可以在defineReactive中获取到监测数组返回的childObj（属性代表的observer实例），这样就可以在defineReactive中获取到数组的dep实例，进行依赖收集。
+
+对象的dep实例在 defineReactive 的闭包里存着
+
+数组的dep实例放在Observer实例上，在数组被当做对象的属性 value observer监测 时，返回值可以获取到Observer实例，即可以获取到数组的dep依赖
+
+### 当data选项中存在二维数组或者三维数组的情况呢
+
+当模板中存在 list[0][1].name时呢 ，如何收集依赖
+
+在 defineReactive 中对数组进行依赖收集后，同时判断数组的item是否还是数组，递归进行依赖收集
+
+```js
+/*
+ * @Author: zbw
+ * @Date: 2020-03-18 21:26
+ */
+
+import {observe} from "./index";
+import {arrayMethods, observerArray} from "./array";
+import { Dep } from './dep'
+
+export function defineReactive(data, key, value) {
+
+  // 如果属性是对象，递归观察
+  // todo childOb 专门服务于数组 是数组的那个dep
+  let childOb = observe(value)
+  // todo 注意：这是一个闭包  由于get、set方法可以获取到 defineReactive 方法作用域中的变量，因此在外部修改属性时， dep 可以一直存活，一直被访问到
+  // 这个dep是给对象用的
+  let dep = new Dep()
+  Object.defineProperty(data, key, {
+    get() {
+      // 取数据之前 已经把 watcher 放到了target上 【source/vue/observe/watcher.js:37】
+      // todo 注意：同一个属性可能会在模板中被多次取值，有可能会在dep中注册很多相同的watcher，我们希望watcher不能重复，如果重复了就会造成更新时，多次渲染
+      if (Dep.target) {
+        // watcher 和 Dep 互相依赖
+        dep.depend() // 想让dep中 可以存watcher 还希望让这个watcher中存放dep 实现多对多关系
+
+
+        // 如在使用 vm.list 时
+        // 在这里不用担心对象会重新收集  因为在【source/vue/observe/watcher.js:46】方法中会判断dep唯一标识
+        if(childOb) {
+          childOb.dep.depend()
+
+          // 递归收集儿子的依赖
+          dependArray(value)
+        }
+      }
+      console.log('获取数据，【渲染dom，更新试图】')
+      return value
+    },
+    set(newValue) {
+      if (newValue === value) return
+      console.log('设置数据  设置vm属性')
+      observe(newValue)
+      value = newValue
+
+      // 执行 该属性 订阅过的 watcher
+      dep.notify()
+    }
+  })
+}
+
+/**
+ * 递归收集数组中的依赖
+ * @param value
+ */
+export function dependArray(value) {
+  for (let i = 0; i < value.length; i++) {
+    // 有可能也是一个数组
+    let currentItem = value[i]
+    currentItem.__ob__ && currentItem.__ob__.dep.depend()
+
+    if (Array.isArray(currentItem)) {
+      // 不停的收集数组中的依赖关系
+      dependArray(currentItem)
+    }
+  }
+}
+
+class Observer {
+  constructor(data) {
+
+    // 这个dep专门为数组使用
+    // 对象的依赖 在【source/vue/observe/observer.js:16】闭包中收集
+    this.dep = new Dep()
+    // 为从data开始的每个对象、数组
+    // 为每个属性都增加一个__ob__属性，返回的就是当前的Observer实例
+    // 这样做是为了让数组属性可以获取到Observer实例
+    Object.defineProperty(data, '__ob__', {
+      get: () => this
+    })
+    if(Array.isArray(data)) {
+      // 对现有数组的每一项进行观察
+      observerArray(data)
+
+      // 对未来某一刻  数组可能会有插入操作  那么对插入的每项也进行观察
+      // todo 如果是数组  对新增项、原有项是对象的进行观察
+      // todo 通过改变data上数组对象的原型链  使在vue实例上声明的数组属性被劫持 只有传入的数据需要被劫持
+      data.__proto__ = arrayMethods
+    } else {
+      // 如果是对象的话
+      this.walk(data)
+    }
+  }
+
+  walk(data) {
+    let keys = Object.keys(data)
+    for (let i = 0; i < keys.length; i++) {
+      let key = keys[i]
+      let value = data[keys[i]]
+
+      defineReactive(data, key, value)
+    }
+  }
+}
+
+export default Observer
+```
