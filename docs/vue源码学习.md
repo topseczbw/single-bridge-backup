@@ -32,9 +32,29 @@
   - [数组什么时候notify依赖更新](#数组什么时候notify依赖更新)
   - [数组什么时候进行依赖收集](#数组什么时候进行依赖收集)
   - [当data选项中存在二维数组或者三维数组的情况呢](#当data选项中存在二维数组或者三维数组的情况呢)
+- [异步批量更新](#异步批量更新)
+  - [如何实现批量异步](#如何实现批量异步)
+  - [异步批量更新过程](#异步批量更新过程)
+  - [使用nextTick包装flushQueue方法，保证其在同步代码后执行](#使用nexttick包装flushqueue方法保证其在同步代码后执行)
+  - [如何处理用户传入的cb](#如何处理用户传入的cb)
+- [组件定义流程](#组件定义流程)
+  - [全局组件是如何定义的](#全局组件是如何定义的)
+  - [vue.extend实现](#vueextend实现)
+  - [vm实例上的components属性与全局声明重复时如何处理](#vm实例上的components属性与全局声明重复时如何处理)
+  - [将模板中的</my-component>标签变成真实dom过程](#将模板中的my-component标签变成真实dom过程)
+- [createElm(vnode)方法——使用虚拟节点创建真实dom](#createelmvnode方法使用虚拟节点创建真实dom)
+- [diff](#diff)
+  - [为什么会有diff算法](#为什么会有diff算法)
+  - [diff 算法是什么,特点](#diff-算法是什么特点)
+  - [比对具体过程](#比对具体过程)
+  - [vue 和 react diff区别](#vue-和-react-diff区别)
 
 <!-- /TOC -->
 ## MVVM
+
+传统的 MVC 指的是,用户操作会请求服务端路由，路由会调用对应的控制器来处理,控制器会获取数 据。将结果返回给前端,页面重新渲染
+
+MVVM :传统的前端会将数据手动渲染到页面上, MVVM 模式不需要用户收到操作 dom 元素,将数据绑 定到 viewModel 层上，会自动将数据渲染到页面中，视图变化会通知 viewModel层 更新数据。 ViewModel 就是我们 MVVM 模式中的桥梁.
 
 核心原理：数据变化可以驱动视图变化
 
@@ -139,7 +159,7 @@ render选项 > template选项 > el选项
 
 ### AST语法树对象和虚拟dom对象的区别
 
-AST语法树是用对象来描述原生html语法。AST语法树并不关心vue相关的属性，比如v-model属性也会被AST视为html标签普通的属性。并且AST对象存在nodeType（1元素节点 3文本节点）标识类型。
+AST语法树是用对象来描述原生html语法。AST语法树并不关心vue相关的属性，比如v-model属性也会被AST视为html标签普通的属性。并且AST对象存在nodeType（1元素节点 3文本节点）标识类型。ast用来形容html语法，不含任何自定义属性
 
 虚拟dom是用对象来描述真实dom节点。虚拟dom与vue相关，可以添加自定义属性。如v-model这样的指令就会被解析为input事件和value属性，更关心vue这个层面的东西
 
@@ -452,4 +472,459 @@ class Observer {
 }
 
 export default Observer
+```
+
+## 异步批量更新
+
+至此更新对象 更新数组都可以自动更新视图。但是！如下操作时
+
+```js
+vm.list.push(1)
+vm.list.push(1)
+vm.list.push(1)
+```
+
+这样修改时，watcher会被调用三次。调用的同一个渲染watcher，这种情况是肯定要避免发生的。
+
+### 如何实现批量异步
+
+批量是指用户在代码中连续修改数据的操作，我们为了避免重复调用更新视图的方法，将_update方法放置在异步任务中，在同步任务之后调用。
+
+这样做也代表着，如果希望在视图更新之后操作dom，需要等异步任务中的更新视图的方法调用完之后，才可以获取到dom元素，所以需要以回调/promise的形式在  逻辑代码修改数据之后， 编写操作dom的方法
+
+### 异步批量更新过程
+
+1. 修改数据
+2. 触发set方法
+3. 触发dep.notify方法，循环触发依赖watcher的update方法，触发queueWatcher方法，参数是当前watcher
+4. 使用全局变量queue  通过id去重保存watcher列表
+5. 在下一个事件循环中 执行flushQueue方法即循环执行队列中的watcher的run方法（即如更新视图等方法）
+
+### 使用nextTick包装flushQueue方法，保证其在同步代码后执行
+
+思考nextTick方法是干啥的，只说技术，nextTick方法就是让我们传入的cb函数，在同步任务执行完之后在执行。我们既会在vue源代码中用到，也会暴露给外部的用户使用，主要是给用户视图更新后操作dom的机会。
+
+所以nextTick理应接收一个cb，然后 分别使用微任务：promise .resolve() 和 MutationObserver 宏任务：setImmediate、 setTimeout 方法 四个异步任务，在异步中执行cb函数 实现异步批量更新功能
+
+为了尽快开始更新视图的操作，会优先使用微任务，后宏任务
+
+### 如何处理用户传入的cb
+
+之前说 我们用一个全局变量queue保存watcher列表，并在每一次渲染完成后，重置queue。用户传入cb，一定是想操作dom，所以我们只要将用户传入的cb push到queue的尾部即可。即更新视图queue后执行完后，此时有dom了，在异步执行用户cb
+
+## 组件定义流程
+
+到这一步，使用一个vm实例，渲染视图，更新数据，视图更新这个流程就搞定了。接下来看看如何定义组件
+
+### 全局组件是如何定义的
+
+为啥都放在vue.options上  不放在Vue上 ？
+
+全局的属性如组件、指令、过滤器，都定义在Vue的静态属性options对象上，之所以这样做，是为了在继承的时候，让子类更方便的覆写
+
+```js
+Vue.options.components = {
+}
+
+Vue.options.filters = {
+}
+```
+
+options.base = Vue  base属性放置着父类构造函数
+
+```js
+Vue.component('my-component', {
+  template: '<div> 你好 </div>'
+})
+```
+
+这里定义组件时，value是一个对象。内部会调用Vue.extend,将这个对象变成vue构造函数，再new出一个vm实例
+
+### vue.extend实现
+
+接收一个对象 返回一个子类构造函数 继承父类
+
+```js
+Vue.extend = function (extendOptions) {
+  const Sub = function VueComponent(options) {
+    this._init(options)
+  }
+  Sub.prototype = Object.create(this.prototype)
+  Sub.prototype.constructor = Sub
+
+  // 合并父类和子类的options
+  Sub.options = mergeOptions(this.options, extendOptions)
+
+  return Sub
+}
+```
+
+此外还会将父类的静态属性和方法全都放在 子类上 如 Vue.mixin Vue.extend
+
+### vm实例上的components属性与全局声明重复时如何处理
+
+更改组件的合并策略，先找自己的，自己没有再找父亲的。
+
+父类中找不到子类的， 但是子类中可以找到父类的，通过链找到父类
+
+```js
+// 合并组件选项、指令、过滤器等
+function mergeAssets(parentVal, childVal) {
+
+  // 以父组件为原型对象，这样的话就可以实现在子组件中找不到时，可以在父组件上找
+  const res = Object.create(parentVal)
+  if (childVal) {
+    for (let key in childVal) {
+      res[key] = childVal[key]
+    }
+  }
+
+  return res
+}
+```
+
+### 将模板中的</my-component>标签变成真实dom过程
+
+全局组件选项 已经用extend转换好了 如果是局部注册的组件选项 还是对象 需要使用Vue.extend转换为构造函数
+
+之后，组件标签也会被转换为AST语法树，由于模板中允许存在同一个组件的多个实例，所以需要有唯一标识，是'my-component-${ctor.cid}-${tag}'
+
+模板解析出tag名称,
+在createElement根据vnode创建dom时 中判断是否原生标签，如果是原生html标签，按常规使用vnode创建dom  。
+如果是组件标签，我可以通过tag的名称定义key 找到vm实例上options.components上这个组件的构造函数，创建组件实例，创建组件虚拟节点。new的时候，就会实例化，会调_init方法，由于没有el，所以不会挂载，我们需要自己挂载。每个组件都会有一个watcher，渲染完之后会放在 vm.$el上 。再调$monut 会把 $el 放在实例上。  在递归创建dom的过程中插入到父节点当中，完成渲染
+
+不管原生标签  还是 组件标签，最后插入到页面dom上的都是递归插入父节点这个过程。只不过两种标签生成dom的过程不同 。 原生标签js直接创建dom 添加属性。 组件标签 需要获取到 他的构造函数 new 挂载 vm.$el 属性 在插入
+
+知道了组件创建的过程，就可以理解为什么 父组件先创建 —— 子组件在创建 —— 子组件挂载完成 —— 父组件挂载完成
+
+> 组件渲染的时候 会调用当前组件对应的构造函数，产生一个实例，我们可以new 这个类 每个组件调用都会new 一下
+> 每个组件在使用时，都会调用Vue.extend方法，创建一个构造函数
+> 实例化子组件时，会将当前选项与父类全局选项合并 mergeOptions
+> 通过创建实例，内部会调用子类的 _init() 方法， 内部会再次创建一个watcher 由于此时没有el选项， 会将渲染后的结果放在 vm.$el上，并返回
+> 使用vnode 递归创建dom时， 可以获取到上一步 的vm.$el 插入父节点 完成组件渲染
+
+## createElm(vnode)方法——使用虚拟节点创建真实dom
+
+## diff
+
+```js
+<template v-if='true'>
+  <div><p>hello</p></div>
+</template>
+<template v-if='false'>
+ <div a='1'><p>hello</p></div>
+ <p>zbw</p>
+</template>
+```
+
+### 为什么会有diff算法
+
+每个dom元素属性都很多，频繁操作dom，势必导致性能差
+
+如：默认有一个列表 3项 过一会又产生一些新的数据。以前的做法是，一锅端，删除三个dom 新建五个dom 替换。使用 dom=>diff 后，可在在每次渲染的时候，进行比对，如果可以复用的元素，就复用以前的元素
+
+总结：为了尽可能的复用现有dom元素
+
+### diff 算法是什么,特点
+
+无法比对真实标签node，因为属性太多。我们可以比对虚拟节点vnode（属性非常少），如果标签一致就复用，增添新的属性
+
+平级比对。因为平时我们操作dom，很少涉及到父变成子，子变成父的情况
+
+vnode在创建el的过程中 createElm（vnode） 是会将真实节点映射到vnode上的 vnode.el = element
+
+### 比对具体过程
+
+1. 比较新旧vnode标签，标签不一致。直接替换老节点。oldVnode上可以获取到oldElement真实dom
+2. 如果是文本节点，更新老节点的textContent属性
+3. 如果节点一样，复用dom，更新dom的属性和样式
+4. 比较孩子，三种情况：
+
+   老的有孩子 新的有孩子 => 核心 updateChildren
+
+   老的有孩子 新的没孩子 => 删老的孩子
+
+   老的没孩子 新的有孩子 => 循环追加新的孩子
+
+5. updateChildren 四种比对优化策略。比对策略的核心是 根据新老vnode做对比，修改真实dom（oldVnode.el可以拿到真实dom）
+
+   头头比：
+
+   oldVnode: A B C D
+
+   newVnode: A B C D E
+
+   尾尾比：
+
+   oldVnode: D A B C
+
+   newVnode: E A B C D
+
+   头尾比：
+
+   oldVnode: D A B C
+
+   newVnode: A B C D
+
+   尾头比：
+
+   oldVnode: A B C D
+
+   newVnode: D A B C
+6. 如果四种策略都不符合，就采用暴力比对：暴力比对也不是很暴力。会获取每个新的vnode。根据key和tag 去老的vnode中去找，如果能找到相同元素，也复用。
+
+### vue 和 react diff区别
+
+1. vue双指针，react单指针
+2. vue在diff的过程中通过oldVnode可以拿到el这个性质，直接操作真实dom。react是生成一个补丁包，再去操作dom
+
+```js
+// 假设初次渲染 vnode
+let vm1 = new Vue({
+  data: {name: 'hello'}
+})
+// 将模板编译成render函数
+let render1 = compileToFunction('<div id="app">{{name}}</div>')
+// 在vm1为上下文中执行render函数 触发属性getter 依赖收集 生成vnode
+let vnode = render1.call(vm1)
+// 根据vnode 生成真实dom
+let el = createEle(vnode)
+document.body.appendChild(el)
+
+
+// 假设更新后 vnode
+let vm2 = new Vue({
+  data: {name: 'zf', age: 111}
+})
+let render2 = compileToFunction('<div id="aaa">{{name}}{{age}}</div>')
+let newVnode = render2.call(vm1)
+let el2 = createEle(newVnode)
+document.body.appendChild(el2)
+
+
+function patch(oldVnode, newVnode) {
+  if (!oldVnode) {
+    // 渲染组件
+    return createElm(newVnode)
+  } else {
+    // oldVnode是否真实节点
+    const isRealElement = oldVnode.nodeType
+    // 如果oldVnode是真实节点 则说明是初次渲染
+    if (isRealElement) {
+      const oldElm = oldVnode
+      const parentElm = oldElm.parentNode
+
+      let el = createElm(newVnode)
+      parentElm.insertBefore(el, oldElm.nextSibling)
+      parentElm.removeChild(oldElm)
+
+      return el
+    } else {
+      // 如果oldVnode是虚拟节点 则说明这次为更新操作
+      // 比对两个虚拟节点（仅供参考，不修改），操作真实dom
+      if (oldVnode.tag !== newVnode.tag) {
+        oldVnode.el.parentNode.replaceChild(createElm(newVnode), oldVnode.el)
+      }
+
+      // 如果标签一样
+      // 优先考虑 都是文本节点的情况 tag都是undefined
+      if (!oldVnode.tag) {
+        if (oldVnode.text !== newVnode.text) {
+          oldVnode.el.textContent = newVnode.text
+        }
+      }
+
+      // 标签一样 属性不一样 复用dom  标签复用
+      let el = newVnode.el = oldVnode.el
+      updateProperties(newVnode, oldVnode.props)
+
+
+      // 比对孩子
+      // vue 规定必须要有一个根节点
+      let oldChildren = oldVnode.children || []
+      let newChildren = newVnode.children || []
+      // todo 三种情况
+      // 1. 老的有孩子 新的有孩子
+      // 2. 老的有孩子 新的没孩子
+      // 3. 老的没孩子 新的有孩子
+      if(oldChildren.length > 0 && newChildren.length > 0) {
+        // 用老的孩子和新的孩子比对出来的区别 去 更新真实dom
+        updateChildren(el, oldChildren, newChildren)
+      } else if (oldChildren.length) {
+        // 老的有孩子 新的无孩子
+        el.innerHTML = ''
+      } else if (newChildren.length) {
+        // 老的无孩子 新的有孩子 直接将孩子虚拟节点转化为真实节点 插入即可
+        for (let i = 0; i < newChildren.length; i++) {
+          let child = newChildren[i];
+          el.appendChild(createElm(child))
+        }
+      }
+    }
+  }
+}
+
+
+// 更新属性和样式 先删除老的 再增加新的
+function updateProperties(vnode, oldProps = {}) {
+  let newProps = vnode.props || {}
+  let el = vnode.el // 当前真实节点
+
+  // todo 先删除老的：属性和样式
+  // 老的有 新的没有 style 删除这个样式
+  let newStyle = newProps.style || {}
+  let oldStyle = oldProps.style || {}
+  for (let key in oldStyle) {
+    if (!newStyle[key]) {
+      // 删除元素的样式 或者 removeAttr删除
+      el.style[key] = ''
+    }
+  }
+  // 老的有 新的没有 删除这个属性
+  for (let key in oldProps) {
+    if (!newProps[key]) {
+      delete el[key]
+    }
+  }
+
+  // todo 再添加新的：属性和样式
+  // 新的属性附上去就行
+  // 特殊情况 class 和 style
+  for (let key in newProps) {
+    // 对不同的dom属性做不同的处理
+    if (key === 'style') {
+      for (let styleName in newProps.style) {
+        el.style[styleName] = newProps.style[styleName]
+      }
+    } else if (key === 'class') {
+      el.className = newProps[key]
+    } else {
+      // 给这个元素添加属性 如 id
+      el[key] = newProps[key]
+    }
+  }
+}
+
+function updateChildren(parent, oldChildren, newChildren) {
+  // vue中增加了很多优化策略 因为在浏览器中操作dom最常见的方法是 开头 结尾插入  正序 倒序
+
+  // 老的
+  let oldStartIndex = 0
+  let oldStartVnode = oldChildren[0]
+  let oldEndIndex = oldChildren.length - 1
+  let oldEndVnode = oldChildren[oldEndIndex]
+
+  // 新的
+  let newStartIndex = 0
+  let newStartVnode = newChildren[0]
+  let newEndIndex = newChildren.length - 1
+  let newEndVnode = newChildren[newEndIndex]
+
+  function makeIndexByKey(children) {
+    let map = {}
+    children.forEach((item, index) => {
+      map[item.key] = index
+    })
+    return map
+  }
+
+  let map = makeIndexByKey(oldChildren)
+
+  // 只有当老节点指针不重合 并且 新节点指针也不重合时 才进行比对 有一方指针先重合 就结束
+  while(oldStartIndex <= oldEndIndex && newStartIndex <= newEndIndex) {
+    // 暴力比对时，当前vnode可能有空的
+    if (!oldStartVnode) {
+      oldStartVnode = oldChildren[++oldStartIndex]
+    } else if (!oldEndVnode) {
+      oldEndVnode = oldChildren[--oldEndIndex]
+      // todo 四种优化比较策略 比较是否同一个节点
+    } else if(isSameNode(oldStartVnode, newStartVnode)) {
+      // todo 优化向前插入 头头比
+      // A B C D
+      // A B C D E
+      // 如果老的节点和新的节点是【一个节点】，则只需要根据新老节点更新属性和样式
+      patch(oldStartVnode, newStartVnode)
+
+      // 把下一个取出来
+      oldStartVnode = oldChildren[++oldStartIndex]
+      newStartVnode = newChildren[++newStartIndex]
+    } else if (isSameNode(oldEndVnode, newEndVnode)) {
+      // todo 优化向后插入 尾尾比
+      // A B C D
+      // E A B C D
+      // 用新的属性 来更新 老的属性
+      patch(oldEndVnode, newEndVnode)
+
+      oldEndVnode = oldChildren[--oldEndIndex]
+      newEndVnode = newChildren[--newEndIndex]
+    } else if (isSameNode(oldStartVnode, newEndVnode)) {
+      // todo 头尾比
+      // D A B C
+      // A B C D
+      // 用新的属性 来更新 老的属性
+      patch(oldStartVnode, newEndVnode)
+
+      // 将D插入到C后面
+      parent.insertBefore(oldStartVnode.el, oldEndVnode.el.nextSibling)
+      oldStartVnode = oldChildren[++oldStartIndex]
+      newEndVnode = newChildren[--newEndIndex]
+    } else if (isSameNode(oldEndVnode, newStartVnode)) {
+      // todo 尾头比
+      // A B C D
+      // D A B C
+      // 用新的属性 来更新 老的属性
+      patch(oldEndVnode, newStartVnode)
+
+      parent.insertBefore(oldEndVnode.el, oldStartVnode.el)
+      oldEndVnode = oldChildren[--oldEndIndex]
+      newStartVnode = newChildren[++newStartIndex]
+    } else {
+      // todo 暴力比对 能复用的就复用，不能复用的就创建出来 插入当前oldVnode头指针的前面去
+      // todo 新根据老节点的key 做一个映射表 拿新的节点去映射表中找， 如果可以找到，则进行移动操作，移动到老节点的start指针节点 的 dom元素 前面位置， 如果找不到则直接将元素插入即可
+      // Q A B C
+      // E A F C N
+      let moveIndex = map[newStartVnode.key]
+      if (moveIndex === undefined) {
+        parent.insertBefore(createElm(newStartVnode), oldStartVnode.el)
+      } else {
+        let moveVnode = oldChildren[moveIndex]
+        patch(moveVnode, newStartVnode)
+        oldChildren[moveIndex] = undefined
+        parent.insertBefore(moveVnode.el, oldStartVnode.el)
+      }
+      newStartVnode = newChildren[++newStartIndex]
+    }
+  }
+
+  // todo 当有一方指针先重合后，才会走到这里
+
+  // oldVnode指针重合了   追加newVnode剩下的元素
+  if (newStartIndex <= newEndIndex) {
+    // 把剩余的元素都插进入
+    for (let i = newStartIndex; i <= newEndIndex; i++) {
+      // 可能是往前面插入 也有可能是往后面插入
+      // 不管是哪个方向  insertbefore 如果是null 就等于appendChild
+      // 获取参考节点
+      let ele = newChildren[newEndIndex + 1] == null ? null : newChildren[newEndIndex + 1].el
+      parent.insertBefore(createElm(newChildren[i]), ele)
+    }
+  }
+
+  // newVnode指针重合了  删除oldVnode剩下的元素
+  if (oldStartIndex <= oldEndIndex) {
+    for (let i = oldStartIndex; i <= oldEndIndex; i++) {
+      let child = oldChildren[i]
+      if (child !== undefined) {
+        parent.removeChild(child.el)
+      }
+    }
+  }
+}
+
+// 判断是不是同一个节点
+function isSameNode(oldVnode, newVnode) {
+  // 如果两个人的标签 和 key都一样 我们就认为是同一个节点
+  return (oldVnode.tag === newVnode.tag) && (oldVnode.key === newVnode.key)
+}
+
 ```
